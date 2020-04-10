@@ -12,6 +12,16 @@ DEMO_DATA_PATH = 'https://public.opendatasoft.com/explore/dataset/us-cities-demo
 
 
 def main():
+
+    """process loan data and demographic data
+
+    - read loan data from csv files from s3 bucket and transform the data, write to different buckets which is ready to load to
+     different tables in a Redshift data base
+    
+    - get demographic data from a website, process the data and write the transformed data to a S3 bucket. This data will be loaded directly to 
+     a Redshift table in the later stage.
+    
+    """
     
     # process loan data
     df_loan = spark.read.csv(LOAN_INPUT_PATH, header=True)
@@ -27,6 +37,19 @@ def main():
 
 
 def process_lending_club_data(df, output_path):
+
+    """process lending-club loan data
+    - get loan data and write to loan S3 bucket
+    - get borrowers data and write to borrower S3 bucket
+    - get credit history data and write to credit_history S3 bucket
+    - get payment data and write to payment S3 bucket
+    - get bad debt settlement data and write to bad debt settlement S3 bucket
+    - get hardship data and write to hardship S3 bucket
+  
+    :param df: spark data frame which contains all information in relation to a loan
+    :param output_path: str, path to s3 bucket
+    """
+
         
     df = general_data_processing(df)
     
@@ -47,6 +70,8 @@ def process_lending_club_data(df, output_path):
     
 
 def general_data_processing(df):
+    """preprocess the data before getting a specific subset of the data
+    """
     
     df = df.withColumn('loan_id', monotonically_increasing_id())
     df = df.withColumn('borrower_id', monotonically_increasing_id())
@@ -56,6 +81,8 @@ def general_data_processing(df):
     return df
 
 def _parse_dates(df):
+    """transform the date format in the form MONTH-YEAR to timestamp format
+    """
     
     date_cols = ['issue_d', 'payment_plan_start_date', 'hardship_start_date', 'hardship_end_date', 'next_pymnt_d', 'last_pymnt_d', 
                  'earliest_cr_line', 'last_credit_pull_d', 'sec_app_earliest_cr_line', 'debt_settlement_flag_date', 'settlement_date']
@@ -72,6 +99,8 @@ def _parse_dates(df):
     return df
 
 def _convert_term_to_num(df):
+    """convert loan terms from string to integer
+    """
     
     convert_term = udf(lambda x: int(x[:-7]))
     
@@ -82,6 +111,8 @@ def _convert_term_to_num(df):
 
 
 def process_loan_data(df, output_path):
+    """get necessary loan columns data and write to a S3 bucket
+    """
     
     loan_cols = ['loan_id', 'borrower_id','issue_d', 'term', 'loan_amnt', 'funded_amnt', 'funded_amnt_inv','int_rate', 'installment' ,
                  'grade', 'sub_grade', 'initial_list_status', 'application_type', 'verification_status', 
@@ -95,6 +126,8 @@ def process_loan_data(df, output_path):
 
 
 def process_borrower_data(df, output_path):
+    """get necessary borrower columns data and write to a S3 bucket
+    """
     
     borrower_cols = ['borrower_id', 'annual_inc', 'annual_inc_joint',  'emp_length', 'emp_title', 
                      'home_ownership',  'zip_code', 'addr_state']
@@ -107,6 +140,12 @@ def process_borrower_data(df, output_path):
 
 
 def process_credit_hist_data(df, output_path):
+
+    """get necessary credit history columns data and write to a S3 bucket
+
+    :param df: loan spark data frame
+    :param output_path: str, path to S3 bucket
+    """
     
     credit_hist_cols = ['borrower_id', 'earliest_cr_line',  'last_credit_pull_d', 
                          'acc_now_delinq', 'acc_open_past_24mths', 'all_util', 'avg_cur_bal', 'bc_open_to_buy',
@@ -136,6 +175,11 @@ def process_credit_hist_data(df, output_path):
 
 
 def process_payment_date(df, output_path):
+    """get necessary payment columns data and write to a S3 bucket
+
+    :param df: loan spark data frame
+    :param output_path: str, path to S3 bucket
+    """
     
     payment_cols = ['loan_id', 'loan_status', 'total_pymnt', 'last_pymnt_amnt', 'recoveries', 'collection_recovery_fee',
                     'out_prncp', 'out_prncp_inv', 'total_pymnt_inv', 'total_rec_prncp', 'total_rec_int', 
@@ -149,6 +193,13 @@ def process_payment_date(df, output_path):
 
 
 def process_bad_debt_settlement(df, output_path):
+
+    """get necessary bad debt columns data and write to a S3 bucket
+
+    :param df: loan spark data frame
+    :param output_path: str, path to S3 bucket
+
+    """
     
     bad_debt_cols = ['loan_id', 'debt_settlement_flag', 'debt_settlement_flag_date', 'settlement_status',
                  'settlement_date', 'settlement_amount', 'settlement_percentage', 'settlement_term']
@@ -163,6 +214,12 @@ def process_bad_debt_settlement(df, output_path):
 
 
 def process_hardship_data(df, output_path):
+
+    """get necessary hardshift columns data and write to a S3 bucket
+
+    :param df: loan spark data frame
+    :param output_path: str, path to S3 bucket
+    """
     
     hardship_cols = ['loan_id', 'hardship_flag', 'hardship_type', 'hardship_reason', 'hardship_status', 
                      'deferral_term', 'hardship_amount', 'hardship_start_date', 'hardship_end_date',
@@ -180,6 +237,12 @@ def process_hardship_data(df, output_path):
     
 
 def get_state_demographic(json_url):
+
+    """get demographic data, transform the data and return a clean pandas data frame of demographic by state
+
+    :param json_url: str, path to json data file 
+
+    """
     
     df_demo = pd.read_json(json_url)
     df_demo = pd.DataFrame(df_demo.fields.tolist())
@@ -218,4 +281,7 @@ def get_state_demographic(json_url):
 
 
 if __name__ == "__main__":
+
+    """run main() file to execute the whole ETL process
+    """
     main()
