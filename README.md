@@ -17,11 +17,17 @@ The database contains following tables:
 **loans related tables**:
 
 `loans` table contains essential information of a loan at origination time such as loan amount, loan term, ...
+
 `borrowers` table contains borrower's information (employment length, state, ...)
+
 `credit_history` table stores borrowers credit history  (number of credit lines, revolving credit balance,...)
+
 `payment` table shows the most updated the payment status of each loan (loan status, principal payment amount, interest payment amount)
+
 `bad_debt_settlement` table records the debt collection status of defaulted loans
+
 `hardship` table keeps all information of loans which applies for a hardship payment plan
+
 
 **State demographic**
 
@@ -41,11 +47,17 @@ The database contains following tables:
 **Scripts**:
 
 `Data_Quality_Check.ipynb`: check data quality and address these issues during the ETL process
+
 `spark_etl.py`: script to load data from S3 bucket, and API from a website, transform the data and write back to a S3 bucket
+
 `create_tables.py`: script to create data tables in Redshift cluster 
+
 `redshift_etl.py`: script to do ETL process from S3 to Redshift database
+
 `sql_queries.py`: script storing sql queries used in `create_tables.py` and `etl.py`  
+
 `config.cfg`: config file to store some meta data  
+
 `Test ETL implementation.ipynb` notebooks to test the whole ETL process  
 
 **Execution steps**:
