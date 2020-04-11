@@ -174,7 +174,7 @@ def process_credit_hist_data(df, output_path):
     return None
 
 
-def process_payment_date(df, output_path):
+def process_payment_data(df, output_path):
     """get necessary payment columns data and write to a S3 bucket
 
     :param df: loan spark data frame
