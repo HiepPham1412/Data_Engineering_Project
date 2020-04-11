@@ -286,7 +286,5 @@ create_table_queries = [loans_table_create, borrowers_table_create, payment_tabl
 drop_table_queries = [loans_table_drop, borrowers_table_drop, payment_table_drop, credit_history_table_drop, 
                       bad_debt_settlement_table_drop, hardship_table_drop, state_demo_table_drop]
 
-#insert_table_queries = [loans_table_insert, borrowers_table_insert, payment_table_insert, credit_history_table_insert, 
-#                        bad_debt_settlement_table_insert, hardship_table_insert, state_demo_table_insert]
-
-insert_table_queries = [state_demo_table_insert]
+insert_table_queries = [loans_table_insert, borrowers_table_insert, payment_table_insert, credit_history_table_insert, 
+                        bad_debt_settlement_table_insert, hardship_table_insert]

@@ -31,7 +31,7 @@ def main():
     # process state demographic data
     df_demo = get_state_demographic(DEMO_DATA_PATH)
     
-    df_demo.to_csv(OUTPUT_PATH + '//demographic//state_demo.csv')
+    df_demo.to_csv(OUTPUT_PATH + 'demographic//state_demo.csv')
     
     return None
 
