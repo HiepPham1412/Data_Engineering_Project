@@ -37,6 +37,10 @@ The database contains following tables:
 
 ![alt text](/img/data_base_dig.png "Data base diagram")
 
+# ETL flow
+
+Raw data from S3, API >> `spark ETL` >> S3 >> `redshift_etl` >> Redshift database
+
 # Scenario analysis 
 - If the data was increased by 100x: as the data transfomation steps is done in Spark, so it would be easy to use a more powerful EMR cluster
 - If the pipelines would be run on a daily basis by 7 am every day: need to build a scheduler to automatically execute the script. Airflow is a possible solution to handle this.
