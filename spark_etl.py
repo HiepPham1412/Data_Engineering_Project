@@ -6,8 +6,8 @@ from pyspark.sql.functions import udf, monotonically_increasing_id
 import pandas as pd
 
 
-LOAN_INPUT_PATH = 's3n://lending-club-loan//raw_data/201812.csv'
-OUTPUT_PATH = 's3n://lending-club-loan//transformed_data/'
+LOAN_INPUT_PATH = 's3n://lending-club-project//raw_data/201812.csv'
+OUTPUT_PATH = 's3n://lending-club-project//transformed_data/'
 DEMO_DATA_PATH = 'https://public.opendatasoft.com/explore/dataset/us-cities-demographics/download/?format=json&timezone=Europe/Berlin&lang=en'
 
 
