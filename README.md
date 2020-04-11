@@ -5,7 +5,7 @@ This project aims to build a simple ETL process to transform LendingClub raw dat
 This helps to monitor the performance of the loans. In addition, these data tables are important for credit modelling as well.
 
 # Raw data
-`lending club loan` data is stored in a S3 bucket: s3://udacity-dend/song_data. This data in json format and contain all information in relation to each loan.
+`lending club loan` data is stored in a S3 bucket: s3://udacity-dend/song_data. This data in csv format and contain all information of more than 2 millions loan.
 
 `state_demo` data is retreived from `https://public.opendatasoft.com/explore/dataset/us-cities-demographics/download/?format=json&timezone=Europe/Berlin&lang=en`
 
@@ -52,11 +52,12 @@ Raw data from S3, API >> `spark ETL` >> S3 >> `redshift_etl` >> Redshift databas
 
 `Data_Quality_Check.ipynb`: check data quality and address these issues during the ETL process
 
-`spark_etl.py`: script to load data from S3 bucket, and API from a website, transform the data and write back to a S3 bucket
+`spark_etl.py`: script to load data from S3 bucket, and API from a website, transform the data and write back to a S3 bucket. 
+Please note that this script only runs on an EMR cluster (us-west2).
 
 `create_tables.py`: script to create data tables in Redshift cluster 
 
-`redshift_etl.py`: script to do ETL process from S3 to Redshift database
+`redshift_etl.py`: script to do ETL process from S3 to Redshift database. Please note that this cluster should locates in us-west-2 region as S3 bucket is in us-west-2 region.
 
 `sql_queries.py`: script storing sql queries used in `create_tables.py` and `etl.py`  
 
