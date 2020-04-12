@@ -5,7 +5,8 @@ This project aims to build a simple ETL process to transform LendingClub raw dat
 This helps to monitor the performance of the loans. In addition, these data tables are important for credit modelling as well.
 
 # Raw data
-`lending club loan` data is stored in a S3 bucket: s3://udacity-dend/song_data. This data in csv format and contain all information of more than 2 millions loan.
+`lending club loan` data is stored in a S3 bucket: s3://lending-club-project/raw_data. This data in csv format and contain all information of more than 2 millions loan. 
+The originial data is published by LendingClub which can be found at https://www.kaggle.com/wendykan/lending-club-loan-data
 
 `state_demo` data is retreived from `https://public.opendatasoft.com/explore/dataset/us-cities-demographics/download/?format=json&timezone=Europe/Berlin&lang=en`
 
